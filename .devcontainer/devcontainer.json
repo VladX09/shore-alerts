@@ -1,0 +1,13 @@
+{
+    "name": "Shore Dev Container",
+    "dockerComposeFile": [
+        "./docker-compose.yml"
+    ],
+    "service": "dev",
+    "workspaceFolder": "/code",
+    "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-python.python",
+        "gruntfuggly.todo-tree"
+    ],
+}

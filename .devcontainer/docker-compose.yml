@@ -1,0 +1,11 @@
+version: '2.4'
+services:
+  dev:
+    build: 
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - $HOME/.gitconfig:/root/.gitconfig
+      - $HOME/.ssh:/root/.ssh
+      - ..:/code
+    command: /bin/sh -c "while sleep 1000; do :; done"
