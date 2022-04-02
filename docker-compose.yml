@@ -38,8 +38,16 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - alerts-worker
-      - postgres
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_started
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/admin" ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     environment:
       <<: *alerts-db
       <<: *django-superuser
@@ -48,9 +56,16 @@ services:
     build:
       context: .
       dockerfile: ./db/Dockerfile
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
   redis:
     image: redis:6-alpine
@@ -59,9 +74,7 @@ services:
     <<: *alerts-image
     command: "celery -A alerts worker --loglevel=INFO"
     depends_on:
-      - redis
       - alerts-beat
-      - postgres
     environment:
       <<: *alerts-db
       <<: *email
@@ -71,7 +84,7 @@ services:
     <<: *alerts-image
     command: "celery -A alerts beat --loglevel=INFO"
     depends_on:
-      - redis
-      - postgres
+      alerts:
+        condition: service_healthy
     environment:
       <<: *alerts-db
