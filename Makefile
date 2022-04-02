@@ -1,4 +1,4 @@
-.PHONY: format_code
+.PHONY: format_code, check_code down up help
 
 ## format_code:              Apply code foramtters
 format_code:
@@ -16,7 +16,7 @@ down:
 	docker-compose down
 
 ## up:                       Up containers
-down:
+up:
 	docker-compose up
 
 help:
