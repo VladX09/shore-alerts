@@ -17,6 +17,7 @@ x-alerts-image:
 services:
   alerts:
     <<: *alerts-image
+    command: "start"
     ports:
       - 8080:8080
     depends_on:
@@ -29,6 +30,9 @@ services:
     build:
       context: .
       dockerfile: ./db/Dockerfile
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
 
   redis:
     image: redis:6-alpine

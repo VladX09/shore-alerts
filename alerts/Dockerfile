@@ -12,3 +12,4 @@ RUN pip install -r /common_lib/requirements.txt
 RUN pip install -e /common_lib
 
 WORKDIR ${CODE_PATH}/alerts
+ENTRYPOINT [ "../entrypoint.sh" ]
