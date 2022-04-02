@@ -13,7 +13,9 @@ async-timeout==4.0.2
 billiard==3.6.4.0
     # via celery
 celery==5.2.3
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-celery-beat
 click==8.0.4
     # via
     #   celery
@@ -28,13 +30,19 @@ click-repl==0.2.0
     # via celery
 deprecated==1.2.13
     # via redis
-django==4.0.3
+django==3.2.12
     # via
     #   -r requirements.in
+    #   django-celery-beat
     #   django-cors-headers
+    #   django-timezone-field
     #   djangorestframework
+django-celery-beat==2.2.1
+    # via -r requirements.in
 django-cors-headers==3.11.0
     # via -r requirements.in
+django-timezone-field==4.2.3
+    # via django-celery-beat
 djangorestframework==3.13.1
     # via -r requirements.in
 kombu==5.2.4
@@ -47,14 +55,22 @@ psycopg2-binary==2.9.3
     # via -r requirements.in
 pyparsing==3.0.7
     # via packaging
+python-crontab==2.6.0
+    # via django-celery-beat
+python-dateutil==2.8.2
+    # via python-crontab
 pytz==2022.1
     # via
     #   celery
+    #   django
+    #   django-timezone-field
     #   djangorestframework
 redis==4.2.1
     # via -r requirements.in
 six==1.16.0
-    # via click-repl
+    # via
+    #   click-repl
+    #   python-dateutil
 sqlparse==0.4.2
     # via django
 vine==5.0.0
