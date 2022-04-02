@@ -3,3 +3,4 @@ django-cors-headers
 djangorestframework
 celery
 redis
+psycopg2-binary
