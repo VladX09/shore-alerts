@@ -141,3 +141,8 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+
+# eBay client options
+EBAY_APP_ID = os.environ.get("EBAY_APP_ID", "")
+EBAY_CERT_ID = os.environ.get("EBAY_CERT_ID", "")
+EBAY_API_URL = os.environ.get("EBAY_API_URL", "")
