@@ -11,6 +11,10 @@ services:
     command: /bin/sh -c "while sleep 1000; do :; done"
     networks:
       - shore_default
+    environment:
+      DB_NAME: "alerts"
+      DB_USER: "alerts"
+      DB_PASSWORD: "alerts"
 
 networks:
   shore_default:
