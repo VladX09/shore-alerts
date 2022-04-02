@@ -1,25 +1,27 @@
 version: '2.4'
-services:
-  alerts:
+x-alerts:
+  &alerts-image
     build:
       context: .
       dockerfile: ./alerts/Dockerfile
+  volumes:
+    - ./alerts:/code
+
+services:
+  alerts:
+    <<: *alerts-image
     ports:
       - 8080:8080
     depends_on:
       - alerts-worker
-    volumes:
-      - ./alerts:/code
-
   redis:
     image: redis:6-alpine
 
   alerts-worker:
-    build:
-      context: .
-      dockerfile: ./alerts/Dockerfile
+    <<: *alerts-image
     command: "celery -A alerts worker --loglevel=INFO"
-    volumes:
-      - ./alerts:/code
+    depends_on:
+      - redis
+
     depends_on:
       - redis
