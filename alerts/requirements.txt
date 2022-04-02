@@ -4,10 +4,30 @@
 #
 #    pip-compile
 #
+amqp==5.1.0
+    # via kombu
 asgiref==3.5.0
     # via django
+async-timeout==4.0.2
+    # via redis
+billiard==3.6.4.0
+    # via celery
+celery==5.2.3
+    # via -r requirements.in
 click==8.0.4
-    # via pip-tools
+    # via
+    #   celery
+    #   click-didyoumean
+    #   click-plugins
+    #   click-repl
+click-didyoumean==0.3.0
+    # via celery
+click-plugins==1.1.1
+    # via celery
+click-repl==0.2.0
+    # via celery
+deprecated==1.2.13
+    # via redis
 django==4.0.3
     # via
     #   -r requirements.in
@@ -17,19 +37,33 @@ django-cors-headers==3.11.0
     # via -r requirements.in
 djangorestframework==3.13.1
     # via -r requirements.in
-pep517==0.12.0
-    # via pip-tools
-pip-tools==6.5.1
-    # via -r requirements.in
+kombu==5.2.4
+    # via celery
+packaging==21.3
+    # via redis
+prompt-toolkit==3.0.28
+    # via click-repl
+pyparsing==3.0.7
+    # via packaging
 pytz==2022.1
-    # via djangorestframework
+    # via
+    #   celery
+    #   djangorestframework
+redis==4.2.1
+    # via -r requirements.in
+six==1.16.0
+    # via click-repl
 sqlparse==0.4.2
     # via django
-tomli==2.0.1
-    # via pep517
-wheel==0.37.1
-    # via pip-tools
+vine==5.0.0
+    # via
+    #   amqp
+    #   celery
+    #   kombu
+wcwidth==0.2.5
+    # via prompt-toolkit
+wrapt==1.14.0
+    # via deprecated
 
 # The following packages are considered to be unsafe in a requirements file:
-# pip
 # setuptools

@@ -1,4 +1,5 @@
 Django
 django-cors-headers
 djangorestframework
-pip-tools
+celery
+redis
