@@ -1,5 +1,11 @@
 version: '2.4'
-x-alerts:
+x-alerts-db:
+  &alerts-db
+  DB_NAME: "alerts"
+  DB_USER: "alerts"
+  DB_PASSWORD: "alerts"
+
+x-alerts-image:
   &alerts-image
   build:
     context: .
@@ -16,6 +22,8 @@ services:
     depends_on:
       - alerts-worker
       - postgres
+    environment:
+      <<: *alerts-db
 
   postgres:
     build:
@@ -32,6 +40,8 @@ services:
       - redis
       - alerts-beat
       - postgres
+    environment:
+      <<: *alerts-db
 
   alerts-beat:
     <<: *alerts-image
@@ -39,3 +49,5 @@ services:
     depends_on:
       - redis
       - postgres
+    environment:
+      <<: *alerts-db
