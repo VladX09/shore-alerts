@@ -13,11 +13,15 @@ check_code:
 
 ## down:                     Down containers
 down:
-	docker-compose down
+	docker compose down
 
 ## up:                       Up containers
-up:
-	docker-compose up
+up: set_secrets
+	docker compose up
+
+## set_secrets:              Export secrets
+set_secrets:
+	export $(grep -v '^#' secrets.env | xargs -d '\n')
 
 help:
 	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
