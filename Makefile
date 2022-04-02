@@ -1,4 +1,6 @@
 .PHONY: format_code, check_code down up help
+include secrets.env
+export
 
 ## format_code:              Apply code foramtters
 format_code:
@@ -16,12 +18,8 @@ down:
 	docker compose down
 
 ## up:                       Up containers
-up: set_secrets
-	docker compose up
-
-## set_secrets:              Export secrets
-set_secrets:
-	export $(grep -v '^#' secrets.env | xargs -d '\n')
+up:
+	docker compose up -d
 
 help:
 	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
