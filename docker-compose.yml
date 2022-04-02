@@ -1,4 +1,9 @@
 version: '2.4'
+x-email:
+  &email
+  EMAIL_HOST_USER: "${EMAIL_HOST_USER:?}"
+  EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD:?}"
+
 x-django-superuser:
   &django-superuser
   DJANGO_SUPERUSER_USERNAME: "admin"
@@ -53,6 +58,7 @@ services:
       - postgres
     environment:
       <<: *alerts-db
+      <<: *email
 
   alerts-beat:
     <<: *alerts-image
