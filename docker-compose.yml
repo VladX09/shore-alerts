@@ -1,0 +1,17 @@
+version: '2.4'
+services:
+  alerts:
+    build:
+      context: .
+      dockerfile: ./alerts/Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      POSTGRES_DB: "alerts"
+      POSTGRES_USER: "alerts"
+      POSTGRES_PASSWORD: "alerts"
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./db/Dockerfile
