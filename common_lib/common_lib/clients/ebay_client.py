@@ -22,10 +22,9 @@ def encode_creds(app_id: str, cert_id: str) -> str:
 
 
 class EbayClient:
-    def __init__(self, app_id: str, cert_id: str, auth_url: str, api_url: str) -> None:
+    def __init__(self, app_id: str, cert_id: str, api_url: str) -> None:
         self._creds = encode_creds(app_id=app_id, cert_id=cert_id)
-        self._auth_url = auth_url.rstrip("/")
-        self._api_url = api_url.rstrip("/")
+        self.api_url = api_url.rstrip("/")
 
     # TODO: add readme note about token cache
     def get_app_access_token(self) -> str:
@@ -36,7 +35,7 @@ class EbayClient:
             "grant_type": "client_credentials",
             "scope": " ".join(AUTH_SCOPES),
         }
-        response = requests.post(url=self._auth_url, headers=headers, data=data)
+        response = requests.post(url=self.auth_url, headers=headers, data=data)
 
         if response.status_code == requests.codes.ok:
             return response.json()["access_token"]
@@ -50,8 +49,12 @@ class EbayClient:
         return {"Authorization": f"Bearer {access_token}"}
 
     @property
+    def auth_url(self) -> str:
+        return f"{self.api_url}/identity/v1/oauth2/token"
+
+    @property
     def item_summary_search_url(self) -> str:
-        return f"{self._api_url}/item_summary/search"
+        return f"{self.api_url}/buy/browse/v1/item_summary/search"
 
     def search_items(self, **params: str) -> t.Dict[str, t.Any]:
         auth_header = self.get_app_auth_header()
