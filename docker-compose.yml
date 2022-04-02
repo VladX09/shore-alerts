@@ -1,9 +1,9 @@
 version: '2.4'
 x-alerts:
   &alerts-image
-    build:
-      context: .
-      dockerfile: ./alerts/Dockerfile
+  build:
+    context: .
+    dockerfile: ./alerts/Dockerfile
   volumes:
     - ./alerts:/code
 
@@ -14,6 +14,7 @@ services:
       - 8080:8080
     depends_on:
       - alerts-worker
+
   redis:
     image: redis:6-alpine
 
@@ -22,6 +23,10 @@ services:
     command: "celery -A alerts worker --loglevel=INFO"
     depends_on:
       - redis
+      - alerts-beat
 
+  alerts-beat:
+    <<: *alerts-image
+    command: "celery -A alerts beat --loglevel=INFO"
     depends_on:
       - redis
