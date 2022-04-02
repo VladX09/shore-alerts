@@ -10,3 +10,6 @@ class Alert(BaseModel):
     email = models.EmailField()
     query = models.TextField()
     period = models.DurationField()
+
+    def __str__(self) -> str:
+        return f"Alert({self.id}, {self.email}, {self.query}, {self.period})"
