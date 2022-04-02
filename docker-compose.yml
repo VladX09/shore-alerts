@@ -15,6 +15,12 @@ services:
       - 8080:8080
     depends_on:
       - alerts-worker
+      - postgres
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./db/Dockerfile
 
   redis:
     image: redis:6-alpine
@@ -25,9 +31,11 @@ services:
     depends_on:
       - redis
       - alerts-beat
+      - postgres
 
   alerts-beat:
     <<: *alerts-image
     command: "celery -A alerts beat --loglevel=INFO"
     depends_on:
       - redis
+      - postgres
