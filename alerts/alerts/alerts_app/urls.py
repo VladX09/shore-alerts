@@ -5,7 +5,7 @@ from . import views
 
 
 router = DefaultRouter()
-router.register(r"snippets", views.AlertViewSet, basename="alerts")
+router.register("", views.AlertViewSet, basename="alerts")
 
 urlpatterns = [
     path("", include(router.urls)),
