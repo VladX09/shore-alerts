@@ -6,7 +6,7 @@ from . import models
 class Alert(serializers.ModelSerializer):
     class Meta:
         model = models.Alert
-        fields = ["id", "email", "query", "period"]
+        fields = ["id", "email", "query", "interval"]
 
 
 class IntervalSchedule(serializers.ModelSerializer):

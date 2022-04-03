@@ -9,26 +9,50 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('django_celery_beat', '0015_edit_solarschedule_events_choices'),
+        ("django_celery_beat", "0015_edit_solarschedule_events_choices"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BaseModel',
+            name="BaseModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Alert',
+            name="Alert",
             fields=[
-                ('basemodel_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='alerts_app.basemodel')),
-                ('email', models.EmailField(max_length=254)),
-                ('query', models.TextField()),
-                ('period', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='django_celery_beat.intervalschedule')),
+                (
+                    "basemodel_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="alerts_app.basemodel",
+                    ),
+                ),
+                ("email", models.EmailField(max_length=254)),
+                ("query", models.TextField()),
+                (
+                    "interval",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="django_celery_beat.intervalschedule",
+                    ),
+                ),
             ],
-            bases=('alerts_app.basemodel',),
+            bases=("alerts_app.basemodel",),
         ),
     ]
