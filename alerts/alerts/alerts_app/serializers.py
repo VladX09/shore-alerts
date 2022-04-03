@@ -41,7 +41,20 @@ class Alert(serializers.Serializer):
             return alert
 
     def update(self, instance, validated_data):
-        return super().update(instance, validated_data)
+        with transaction.atomic():
+            instance.email = validated_data.get("email", instance.email)
+            instance.query = validated_data.get("query", instance.query)
+
+            interval, _ = beat_models.IntervalSchedule.objects.get_or_create(
+                every=validated_data.get("every", instance.task.interval.every),
+                period=validated_data.get("period", instance.task.interval.period),
+            )
+            instance.task.interval = interval
+
+            instance.task.save()
+            instance.save()
+
+            return instance
 
     def to_representation(self, instance):
         ret = {}
