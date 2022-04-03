@@ -17,15 +17,12 @@ def compose_and_send_alert(self, task_id: str):
     response = ebay_client.search_items(q=task_obj.alert.query, sort="price", limit=20)
     items = [EbayItem.parse(item_src) for item_src in response.get("itemSummaries", [])]
 
-    if not items:
-        logger.info("Skip empty items list for alert: %s", task_obj.alert)
-        return
-
     send_templated_mail(
         template_name="alert_mail",
         from_email=EMAIL_HOST_USER,
         recipient_list=[task_obj.alert.email],
         context={
+            "alert_query": task_obj.alert.query,
             "ebay_items": [item.asdict() for item in items],
         },
     )
