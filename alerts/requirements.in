@@ -6,5 +6,3 @@ redis
 psycopg2-binary
 django-celery-beat
 django-templated-email
-django-naomi
-django-premailer
