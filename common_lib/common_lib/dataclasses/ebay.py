@@ -18,12 +18,14 @@ class EbayItemSummarySchema(serializers.Serializer):
     image = EbayImageSummarySchema()
     itemHref = serializers.URLField()
     price = EbayPriceSchema()
+    itemWebUrl = serializers.URLField()
 
 
 @dataclass
 class EbayItem:
     title: str
     href: str
+    web_url: str
     image_url: str
     price: t.Optional[str]
     currency: t.Optional[str]
@@ -38,6 +40,7 @@ class EbayItem:
         return cls(
             title=validated_data["title"],
             href=validated_data["itemHref"],
+            web_url=validated_data["itemWebUrl"],
             image_url=validated_data["image"]["imageUrl"],
             price=validated_data["price"].get("value"),
             currency=validated_data["price"].get("currency"),
