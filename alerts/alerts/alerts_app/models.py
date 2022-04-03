@@ -24,6 +24,10 @@ class Alert(BaseModel):
         max_length=24,
         choices=IntervalSchedule.PERIOD_CHOICES,
     )
+
+    country = models.CharField(max_length=5, null=True, blank=True)
+    zip_code = models.TextField(null=True, blank=True)
+
     task = models.OneToOneField(
         PeriodicTask,
         on_delete=models.CASCADE,

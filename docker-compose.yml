@@ -72,7 +72,7 @@ services:
 
   alerts-worker:
     <<: *alerts-image
-    command: "celery -A alerts worker --loglevel=INFO"
+    command: "celery -A alerts worker --loglevel=DEBUG"
     depends_on:
       - alerts-beat
     environment:
