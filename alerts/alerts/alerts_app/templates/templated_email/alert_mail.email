@@ -1,0 +1,18 @@
+{% block html %}
+
+<body>
+    <table>
+        {% for item in ebay_items %}
+        <tr>
+            <td>{{ item.title }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.currency }}</td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 import typing as t
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 from rest_framework import serializers
 
@@ -42,3 +42,6 @@ class EbayItem:
             price=validated_data["price"].get("value"),
             currency=validated_data["price"].get("currency"),
         )
+
+    def asdict(self):
+        return asdict(self)

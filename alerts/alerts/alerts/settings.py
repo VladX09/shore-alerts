@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "rest_framework",
     "alerts_app",
+    "django_premailer",
 ]
 
 MIDDLEWARE = [
@@ -56,6 +57,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "alerts.urls"
 
+TEMPLATED_EMAIL_BACKEND = "templated_email.backends.vanilla_django"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
