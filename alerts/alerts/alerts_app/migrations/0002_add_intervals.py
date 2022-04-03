@@ -20,4 +20,6 @@ class Migration(migrations.Migration):
         ("alerts_app", "0001_initial"),
     ]
 
-    operations = []
+    operations = [
+        migrations.RunPython(add_intervals),
+    ]
