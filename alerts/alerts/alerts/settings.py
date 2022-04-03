@@ -25,6 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-77jrs&@fl2(7rk0che3(!d8^%jd@=uh25r5yb+r8pn^w&mp*bt"
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# TODO: add DEBUG switch logic
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -42,7 +43,6 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "rest_framework",
     "alerts_app",
-    "django_premailer",
 ]
 
 MIDDLEWARE = [
@@ -144,7 +144,7 @@ LOGGING = {
     },
     "root": {
         "handlers": ["console"],
-        "level": "INFO",
+        "level": "DEBUG",
     },
 }
 
@@ -159,6 +159,11 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+
+# if DEBUG:
+#     EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+#     EMAIL_FILE_PATH = str(BASE_DIR / "app-messages")
+
 
 # eBay client options
 EBAY_APP_ID = os.environ.get("EBAY_APP_ID", "")
