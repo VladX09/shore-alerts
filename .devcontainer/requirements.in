@@ -3,3 +3,4 @@ ipython
 flake8
 isort
 black
+pip-tools
