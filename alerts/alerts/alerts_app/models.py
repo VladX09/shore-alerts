@@ -1,4 +1,5 @@
 import json
+import typing as t
 import uuid
 
 from django.core.validators import MinValueValidator
@@ -38,6 +39,10 @@ class Alert(BaseModel):
     @property
     def scheduled(self) -> bool:
         return self.task is not None
+
+    @property
+    def task_name(self) -> t.Optional[str]:
+        return self.task.name if self.task is not None else None
 
     def __str__(self) -> str:
         return (
