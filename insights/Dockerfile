@@ -5,8 +5,6 @@ ENV CODE_PATH=/code
 
 COPY ./insights ${CODE_PATH}
 RUN pip install -r ${CODE_PATH}/requirements.txt
-# TODO: remove dev flag
-RUN pip install -e /insights
 
 COPY ./common_lib /common_lib
 RUN pip install -r /common_lib/requirements.txt
