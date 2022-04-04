@@ -14,17 +14,8 @@ logger = get_task_logger(__name__)
 @celery_app.task(bind=True)
 def compose_and_send_alert(self, task_id: str):
     task_obj: PeriodicTask = PeriodicTask.objects.get(name=task_id)
-    params = {
-        "q": task_obj.alert.query,
-        "sort": "price",
-        "limit": 20,
-    }
-    location_header = ebay_client.generate_enduserctx(
-        task_obj.alert.country,
-        task_obj.alert.zip_code,
-    )
-    response = ebay_client.search_items(params=params, headers=location_header)
 
+    response = ebay_client.search_items(q=task_obj.alert.query, sort="price", limit=20)
     items = [
         serializers.parse_ebay_item(task_obj.alert, item_src)
         for item_src in response.get("itemSummaries", [])

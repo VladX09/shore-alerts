@@ -1,12 +1,7 @@
 import base64
-import logging
 import typing as t
-from urllib.parse import quote
 
 import requests
-
-
-logger = logging.getLogger(__name__)
 
 
 B64_ENCODING = "utf-8"
@@ -30,25 +25,6 @@ class EbayClient:
     def __init__(self, app_id: str, cert_id: str, api_url: str) -> None:
         self._creds = encode_creds(app_id=app_id, cert_id=cert_id)
         self.api_url = api_url.rstrip("/")
-
-    @staticmethod
-    def generate_enduserctx(
-        country: t.Optional[str],
-        zip_code: t.Optional[str],
-    ) -> t.Dict:
-        if country:
-            contextual_location_data = "".join(
-                (
-                    f"country={country}",
-                    f",zip={zip_code}" if zip_code else "",
-                )
-            )
-            contextual_location_value = (
-                f"contextualLocation={quote(contextual_location_data, safe='')}"
-            )
-
-            return {"X-EBAY-C-ENDUSERCTX": contextual_location_value}
-        return {}
 
     # TODO: add readme note about token cache
     def get_app_access_token(self) -> str:
@@ -80,24 +56,11 @@ class EbayClient:
     def item_summary_search_url(self) -> str:
         return f"{self.api_url}/buy/browse/v1/item_summary/search"
 
-    def search_items(
-        self,
-        params: t.Dict,
-        headers: t.Optional[t.Dict] = None,
-    ) -> t.Dict[str, t.Any]:
+    def search_items(self, **params: str) -> t.Dict[str, t.Any]:
         auth_header = self.get_app_auth_header()
-        request_headers = {**(headers or {}), **auth_header}
-
-        logger.debug(
-            "Send eBay request: %s, %s, %s",
-            self.item_summary_search_url,
-            request_headers,
-            params,
-        )
-
         response = requests.get(
             url=self.item_summary_search_url,
-            headers=request_headers,
+            headers=auth_header,
             params=params,
         )
 
