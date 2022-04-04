@@ -5,7 +5,7 @@ from celery.utils.log import get_task_logger
 from django_celery_beat.models import PeriodicTask
 from templated_email import send_templated_mail
 
-from common_lib.dataclasses.ebay import EbayItem
+from . import serializers
 
 
 logger = get_task_logger(__name__)
@@ -25,7 +25,10 @@ def compose_and_send_alert(self, task_id: str):
     )
     response = ebay_client.search_items(params=params, headers=location_header)
 
-    items = [EbayItem.parse(item_src) for item_src in response.get("itemSummaries", [])]
+    items = [
+        serializers.parse_ebay_item(task_obj.alert, item_src)
+        for item_src in response.get("itemSummaries", [])
+    ]
     items = sorted(items, key=lambda i: i.price)
 
     send_templated_mail(
@@ -34,6 +37,9 @@ def compose_and_send_alert(self, task_id: str):
         recipient_list=[task_obj.alert.email],
         context={
             "alert_query": task_obj.alert.query,
-            "ebay_items": [item.asdict() for item in items],
+            "ebay_items": [serializers.AlertItem(item).data for item in items],
         },
     )
+
+    for item in items:
+        item.save()

@@ -48,3 +48,16 @@ class Alert(BaseModel):
         return (
             f"Alert({self.id}, {self.email}, {self.query}, {self.every}, {self.period})"
         )
+
+
+class AlertItem(BaseModel):
+    item_id = models.CharField(max_length=255)
+    title = models.TextField()
+    web_url = models.URLField()
+    price = models.FloatField(null=True, blank=True)
+    currency = models.CharField(max_length=8, null=True, blank=True)
+
+    alert = models.ForeignKey(Alert, on_delete=models.CASCADE, related_name="items")
+
+    def __str__(self) -> str:
+        return f"AlertItem({self.item_id}, {self.title[:10]}...)"
