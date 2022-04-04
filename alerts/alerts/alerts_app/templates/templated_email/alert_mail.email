@@ -1,28 +1,23 @@
 {% block subject %}Your alerts for query "{{ alert_query }}"{% endblock %}
 {% block html %}
 <body>
-    {% if ebay_items %}
-        <table>
-            <tr>
-                <td><b>Title</b></td>
-                <td><b>Price</b></td>
-                <td><b>Currency</b></td>
-            </tr>
-            {% for item in ebay_items %}
-            
-            <tr>
-                <td><a href="{{ item.web_url }}">{{ item.title }}</a></td>
-                <td>{{ item.price }}</td>
-                <td>{{ item.currency }}</td>
-            </tr>
-            
-            {% endfor %}
+    <table>
+        <tr>
+            <td><b>Title</b></td>
+            <td><b>Price</b></td>
+            <td><b>Currency</b></td>
+        </tr>
+        {% for item in ebay_items %}
         
-        </table>
-    {% else %}
-        <b>Sorry, there's nothing on eBay for your query =(</b>
-    {% endif %}
+        <tr>
+            <td><a href="{{ item.web_url }}">{{ item.title }}</a></td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.currency }}</td>
+        </tr>
+        
+        {% endfor %}
     
+    </table>
 
 </body>
 
