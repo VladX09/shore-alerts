@@ -12,6 +12,11 @@ from . import models, serializers
 logger = getLogger(__name__)
 
 
+class AlertItemViewSet(viewsets.ModelViewSet):
+    queryset = models.AlertItem.objects.all()
+    serializer_class = serializers.AlertItem
+
+
 class AlertViewSet(viewsets.ModelViewSet):
     queryset = models.Alert.objects.all()
     serializer_class = serializers.Alert

@@ -11,13 +11,15 @@ class Alert(serializers.ModelSerializer):
 
     class Meta:
         model = models.Alert
-        exclude = ("task", "items")
+        exclude = ("task",)
 
 
 class AlertItem(serializers.ModelSerializer):
+    alert = Alert()
+
     class Meta:
         model = models.AlertItem
-        exclude = ("alert",)
+        fields = "__all__"
 
 
 class EbayImageSummarySchema(serializers.Serializer):
