@@ -2,6 +2,7 @@ import json
 import uuid
 from logging import getLogger
 
+import rest_framework_filters as filters
 from django.db import transaction
 from django_celery_beat.models import IntervalSchedule, PeriodicTask
 from rest_framework import viewsets
@@ -12,14 +13,32 @@ from . import models, serializers
 logger = getLogger(__name__)
 
 
+class AlertFilter(filters.FilterSet):
+    class Meta:
+        model = models.Alert
+        fields = {"updated_at": ["gte", "lte"]}
+
+
+class AlertItemFilter(filters.FilterSet):
+    alert = filters.RelatedFilter(
+        AlertFilter,
+        field_name="alert",
+        queryset=models.Alert.objects.all(),
+    )
+
+
 class AlertItemViewSet(viewsets.ModelViewSet):
     queryset = models.AlertItem.objects.all()
     serializer_class = serializers.AlertItem
+    filter_class = AlertItemFilter
+    ordering_fields = ["item_id", "price", "alert__email"]
 
 
 class AlertViewSet(viewsets.ModelViewSet):
     queryset = models.Alert.objects.all()
     serializer_class = serializers.Alert
+    filter_class = AlertFilter
+    ordering_fields = ["email"]
 
     def perform_create(self, serializer):
         with transaction.atomic():

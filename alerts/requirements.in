@@ -6,3 +6,4 @@ redis
 psycopg2-binary
 django-celery-beat
 django-templated-email
+djangorestframework-filters>=1.0.0.dev2

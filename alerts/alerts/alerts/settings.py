@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django_celery_beat",
     "rest_framework",
     "alerts_app",
+    "rest_framework_filters",
 ]
 
 MIDDLEWARE = [
@@ -168,3 +169,11 @@ if DEBUG:
 EBAY_APP_ID = os.environ.get("EBAY_APP_ID", "")
 EBAY_CERT_ID = os.environ.get("EBAY_CERT_ID", "")
 EBAY_API_URL = os.environ.get("EBAY_API_URL", "")
+
+# REST framework options
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": (
+        "rest_framework_filters.backends.RestFrameworkFilterBackend",
+        "rest_framework.filters.OrderingFilter",
+    )
+}
