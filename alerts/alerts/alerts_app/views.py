@@ -31,7 +31,7 @@ class AlertItemViewSet(viewsets.ModelViewSet):
     queryset = models.AlertItem.objects.all()
     serializer_class = serializers.AlertItem
     filter_class = AlertItemFilter
-    ordering_fields = ["item_id", "price", "alert__email"]
+    ordering_fields = ["item_id", "price", "alert__email", "updated_at"]
 
 
 class AlertViewSet(viewsets.ModelViewSet):
