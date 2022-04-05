@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y git ssh make
 
 COPY . ${CODE_PATH}
 RUN pip install -r ${CODE_PATH}/alerts/requirements.txt
+RUN pip install -r ${CODE_PATH}/insights/requirements.txt
 RUN pip install -r ${CODE_PATH}/.devcontainer/requirements.txt
 RUN pip install -r ${CODE_PATH}/common_lib/requirements.txt
 RUN pip install -e ${CODE_PATH}/common_lib
