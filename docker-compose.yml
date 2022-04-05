@@ -41,7 +41,6 @@ x-alerts-image:
     dockerfile: ./alerts/Dockerfile
   volumes:
     - ./alerts:/code
-    - ./common_lib:/common_lib
 
 services:
   alerts:
