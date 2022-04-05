@@ -3,3 +3,4 @@ Click
 crontab
 requests
 pydantic
+jinja2
