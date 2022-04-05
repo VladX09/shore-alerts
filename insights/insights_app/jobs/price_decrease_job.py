@@ -17,7 +17,7 @@ from insights_app.smtp_client import smtp_client
 INSIGHTS_DELTA = {"days": -2}
 logger = logging.getLogger(__name__)
 
-DJANGO_DT_FORMAT = ""  # TODO:
+DJANGO_DT_FORMAT = "YYYY-MM-DDTHH:mm:ss"
 
 
 def select_price_minmax(from_dt: arrow.Arrow, alerts_client: AlertsClient):
@@ -124,5 +124,3 @@ def cli(
             email_host_password,
         ) as smtp:
             price_decrease_job(alerts_client, smtp)
-
-    pass
