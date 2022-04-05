@@ -4,9 +4,11 @@ import logging
 import smtplib
 import time
 import typing as t
+from email.mime.text import MIMEText
 
 import arrow
 import click
+import jinja2
 from crontab import CronTab
 from insights_app.alerts_client import AlertsClient
 from insights_app.smtp_client import smtp_client
@@ -64,15 +66,35 @@ def prepare_email_data(groups, decrease_percent: float) -> t.Dict[str, t.List[t.
     return email_data
 
 
-def send_emails(smtp: smtplib.SMTP, email_data: t.Dict[str, t.List[t.Dict]]):
-    pass
+def send_emails(
+    smtp: smtplib.SMTP,
+    email_data: t.Dict[str, t.List[t.Dict]],
+    sender_email: str,
+):
+    env = jinja2.Environment(
+        loader=jinja2.PackageLoader("insights_app"),
+        autoescape=jinja2.select_autoescape(),
+    )
+    template = env.get_template("price_decrease_email.html")
+
+    for receiver_email, items in email_data.items():
+        content = template.render(items=items)
+        message = MIMEText(content, "html")
+        message["From"] = sender_email
+        message["To"] = receiver_email
+        message["Subject"] = "Insights about your alerts"
+        smtp.sendmail(sender_email, receiver_email, message.as_string())
 
 
-def price_decrease_job(alerts_client: AlertsClient, smtp: smtplib.SMTP):
-    from_dt = arrow.now().shift(**INSIGHTS_DELTA)
+def price_decrease_job(
+    alerts_client: AlertsClient,
+    smtp: smtplib.SMTP,
+    sender_email: str,
+):
+    from_dt = arrow.utcnow().shift(**INSIGHTS_DELTA)
     groups = select_price_minmax(from_dt=from_dt, alerts_client=alerts_client)
     email_data = prepare_email_data(groups=groups, decrease_percent=0.02)
-    send_emails(smtp=smtp, email_data=email_data)
+    send_emails(smtp=smtp, email_data=email_data, sender_email=sender_email)
 
 
 @click.command(name="price_decrease_job")

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <h2>This products from your previous alerts are cheaper.</h2>
+
+    <table>
+        <tr>
+            <td><b>Title</b></td>
+            <td><b>Old Price</b></td>
+            <td><b>New Price</b></td>
+        </tr>
+
+        {% for item in items %}
+
+        <tr>
+            <td><a href="{{ item.web_url }}">{{ item.title }}</a></td>
+            <td>{{ item.old_price }} {{ item.currency }}</td>
+            <td>{{ item.new_price }} {{ item.currency }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</body>
+
+</html>
