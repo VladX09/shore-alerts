@@ -90,27 +90,32 @@ def price_decrease_job(
     alerts_client: AlertsClient,
     smtp: smtplib.SMTP,
     sender_email: str,
+    decrease_percent: int,
 ):
     from_dt = arrow.utcnow().shift(**INSIGHTS_DELTA)
     groups = select_price_minmax(from_dt=from_dt, alerts_client=alerts_client)
-    email_data = prepare_email_data(groups=groups, decrease_percent=0.02)
+    email_data = prepare_email_data(groups=groups, decrease_percent=decrease_percent)
     send_emails(smtp=smtp, email_data=email_data, sender_email=sender_email)
 
 
 @click.command(name="price_decrease_job")
 @click.option("--schedule", envvar="SCHEDULE")
-@click.option("--email_host", envvar="EMAIL_HOST")
-@click.option("--email_port", envvar="EMAIL_PORT", type=int)
-@click.option("--email_host_user", envvar="EMAIL_HOST_USER")
-@click.option("--email_host_password", envvar="EMAIL_HOST_PASSWORD")
-@click.option("--alerts_svc_url", envvar="ALERTS_SVC_URL")
+@click.option("--email-host", envvar="EMAIL_HOST")
+@click.option("--email-port", envvar="EMAIL_PORT", type=int)
+@click.option("--email-host-user", envvar="EMAIL_HOST_USER")
+@click.option("--email-host-password", envvar="EMAIL_HOST_PASSWORD")
+@click.option("--sender-email", envvar="SENDER_EMAIL")
+@click.option("--alerts-svc-url", envvar="ALERTS_SVC_URL")
+@click.option("--decrease-percent", envvar="DECREASE_PERCENT", type=float, default=0.02)
 def cli(
     schedule,
     email_host,
     email_port,
     email_host_user,
     email_host_password,
+    sender_email,
     alerts_svc_url,
+    decrease_percent,
 ):
     alerts_client = AlertsClient(url=alerts_svc_url)
     scheduler = CronTab(schedule)
@@ -123,4 +128,9 @@ def cli(
             email_host_user,
             email_host_password,
         ) as smtp:
-            price_decrease_job(alerts_client, smtp)
+            price_decrease_job(
+                alerts_client,
+                smtp,
+                sender_email,
+                decrease_percent,
+            )
