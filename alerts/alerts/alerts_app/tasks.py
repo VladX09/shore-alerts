@@ -2,7 +2,7 @@ import typing as t
 
 from alerts.celery import celery_app
 from alerts.ebay import ebay_client
-from alerts.settings import EMAIL_HOST_USER
+from alerts.settings import SENDER_EMAIL
 from celery.utils.log import get_task_logger
 from django_celery_beat.models import PeriodicTask
 from templated_email import send_templated_mail
@@ -52,7 +52,7 @@ def compose_and_send_alert(self, task_id: str):
         logger.debug("Send %s changed items", len(items_filtered))
         send_templated_mail(
             template_name="alert_mail",
-            from_email=EMAIL_HOST_USER,
+            from_email=SENDER_EMAIL,
             recipient_list=[task_obj.alert.email],
             context={
                 "alert_query": task_obj.alert.query,
