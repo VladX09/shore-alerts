@@ -4,6 +4,9 @@ SCRIPT_NAME=$0
 COMMAND=$1
 
 case ${COMMAND} in
+    clear-workspace)
+        docker network rm shore 2> /dev/null || true
+        ;;
     format-code)
         FILEPATH=${2:-.}
         isort --settings-file .isort.cfg ${FILEPATH}
@@ -16,6 +19,7 @@ case ${COMMAND} in
         flake8 --config .flake8 ${FILEPATH}
         ;;
     *)
+        docker network create shore 2> /dev/null || true
         export $(grep -v '^#' ./secrets.env | xargs -d '\n')
         exec "$@"
         ;;
