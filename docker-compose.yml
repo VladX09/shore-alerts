@@ -45,7 +45,7 @@ x-alerts-image:
 
 services:
   alerts:
-    <<: *networks
+    <<: *network
     <<: *alerts-image
     command: "start"
     ports:
@@ -67,7 +67,7 @@ services:
       <<: *debug
 
   postgres:
-    <<: *networks
+    <<: *network
     build:
       context: .
       dockerfile: ./db/Dockerfile
@@ -83,11 +83,11 @@ services:
       POSTGRES_PASSWORD: postgres
 
   redis:
-    <<: *networks
+    <<: *network
     image: redis:6-alpine
 
   alerts-worker:
-    <<: *networks
+    <<: *network
     <<: *alerts-image
     command: "celery -A alerts worker --loglevel=DEBUG"
     depends_on:
@@ -99,7 +99,7 @@ services:
       <<: *ebay
 
   alerts-beat:
-    <<: *networks
+    <<: *network
     <<: *alerts-image
     command: "celery -A alerts beat --loglevel=INFO"
     depends_on:
