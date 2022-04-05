@@ -16,6 +16,10 @@ celery==5.2.3
     # via
     #   -r requirements.in
     #   django-celery-beat
+certifi==2021.10.8
+    # via requests
+charset-normalizer==2.0.12
+    # via requests
 click==8.0.4
     # via
     #   celery
@@ -57,6 +61,8 @@ djangorestframework==3.13.1
     #   djangorestframework-filters
 djangorestframework-filters==1.0.0.dev2
     # via -r requirements.in
+idna==3.3
+    # via requests
 kombu==5.2.4
     # via celery
 packaging==21.3
@@ -79,12 +85,16 @@ pytz==2022.1
     #   djangorestframework
 redis==4.2.1
     # via -r requirements.in
+requests==2.27.1
+    # via -r requirements.in
 six==1.16.0
     # via
     #   click-repl
     #   python-dateutil
 sqlparse==0.4.2
     # via django
+urllib3==1.26.9
+    # via requests
 vine==5.0.0
     # via
     #   amqp
