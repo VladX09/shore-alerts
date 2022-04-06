@@ -1,0 +1,40 @@
+version: '2.4'
+
+x-debug:
+  &debug
+  DEBUG: "True"
+
+x-alerts-code:
+  &alerts-code
+  volumes:
+    - ./alerts:/code
+
+x-insights-code:
+  &insights-code
+  volumes:
+    - ./insights:/code
+
+services:
+  alerts:
+    command: "start"
+    <<: *alerts-code
+    environment:
+      <<: *debug
+
+  alerts-worker:
+    <<: *alerts-code
+    command: "celery -A alerts worker --loglevel=DEBUG"
+    environment:
+      <<: *debug
+
+  alerts-beat:
+    <<: *alerts-code
+    command: "celery -A alerts beat --loglevel=INFO"
+    environment:
+      <<: *debug
+
+  price-decrease-insight:
+    <<: *insights-code
+    command: "start --schedule * * 2 * *"
+    environment:
+      <<: *debug

@@ -11,7 +11,7 @@ x-secret-env:
 
 x-debug:
   &debug
-  DEBUG: "True"
+  DEBUG: "False"
 
 x-django-superuser:
   &django-superuser
@@ -31,8 +31,6 @@ x-alerts-image:
   build:
     context: .
     dockerfile: ./alerts/Dockerfile
-  volumes:
-    - ./alerts:/code
 
 x-insights-image:
   &insights-image
@@ -40,8 +38,6 @@ x-insights-image:
   build:
     context: .
     dockerfile: ./insights/Dockerfile
-  volumes:
-    - ./insights:/code
 
 services:
   alerts:
