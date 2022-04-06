@@ -43,6 +43,9 @@ def select_price_minmax(from_dt: arrow.Arrow, alerts_client: AlertsClient):
 
 
 def prepare_email_data(groups, decrease_percent: float) -> t.Dict[str, t.List[t.Dict]]:
+    if decrease_percent < 0 or decrease_percent > 1:
+        raise ValueError("Decrease percent should be in [0;1] range")
+
     # For each user create list of changed items
     email_data = collections.defaultdict(list)
     for group_key, (earliest_item, latest_item) in groups:
@@ -50,7 +53,8 @@ def prepare_email_data(groups, decrease_percent: float) -> t.Dict[str, t.List[t.
         old_price = earliest_item.price
         new_price = latest_item.price
 
-        if (old_price - new_price) / old_price <= decrease_percent:
+        if new_price > old_price * (1 - decrease_percent):
+            logger.debug("Skip %s > %s * %s", new_price, old_price, decrease_percent)
             continue
 
         email_data[email].append(
