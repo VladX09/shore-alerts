@@ -7,4 +7,5 @@ COPY ./insights ${CODE_PATH}
 RUN pip install -r ${CODE_PATH}/requirements.txt
 
 WORKDIR ${CODE_PATH}
+ENV PYTHONPATH=${PYTHONPATH}:${CODE_PATH}:
 ENTRYPOINT [ "./entrypoint.sh" ]
