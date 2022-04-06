@@ -68,6 +68,7 @@ def prepare_email_data(groups, decrease_percent: float) -> t.Dict[str, t.List[t.
             }
         )
 
+    logger.debug("Send email data %s", email_data)
     return email_data
 
 
@@ -126,7 +127,7 @@ def cli(
     scheduler = CronTab(schedule)
 
     while True:
-        time.sleep(scheduler.next())
+        time.sleep(scheduler.next(default_utc=True))
         with smtp_client(
             email_host,
             email_port,
@@ -139,6 +140,7 @@ def cli(
                 sender_email,
                 decrease_percent,
             )
+        click.echo("OK")
 
 
 if __name__ == "__main__":
