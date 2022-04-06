@@ -6,8 +6,7 @@ case "$1" in
         pytest --log-level=DEBUG 
         ;;
     start)
-        PARAMS=${2:}
-        python insights_app/jobs/price_decrease_job.py $PARAMS
+        python insights_app/jobs/price_decrease_job.py "${@:2}"
         ;;
     *)
         exec "$@"
