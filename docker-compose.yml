@@ -11,7 +11,7 @@ x-secret-env:
 
 x-debug:
   &debug
-  DEBUG: "False"
+  DEBUG: "True"
 
 x-django-superuser:
   &django-superuser
