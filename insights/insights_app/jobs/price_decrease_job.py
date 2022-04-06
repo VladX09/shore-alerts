@@ -24,7 +24,7 @@ def select_price_minmax(from_dt: arrow.Arrow, alerts_client: AlertsClient):
     # Get lists of records for each combination of email, item_id and currency
     # Sorted by updated_date (ascended)
 
-    results = AlertsClient.get_alert_items(
+    results = alerts_client.get_alert_items(
         updated_at__gte=from_dt.format(DJANGO_DT_FORMAT),
         ordering="alert__email,item_id,currency,updated_at",
     )
