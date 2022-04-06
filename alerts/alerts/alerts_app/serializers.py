@@ -15,7 +15,7 @@ class Alert(serializers.ModelSerializer):
 
 
 class AlertItem(serializers.ModelSerializer):
-    alert = Alert()
+    alert = Alert(read_only=True)
 
     class Meta:
         model = models.AlertItem
