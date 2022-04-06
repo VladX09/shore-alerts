@@ -161,7 +161,7 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "")
 
-if DEBUG:
+if os.environ.get("EMAIL_TEST_BACKEND", "True") == "True":
     EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
     EMAIL_FILE_PATH = str(BASE_DIR / "app-messages")
 

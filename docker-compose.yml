@@ -12,6 +12,7 @@ x-secret-env:
 x-debug:
   &debug
   DEBUG: "True"
+  EMAIL_TEST_BACKEND: "False"
 
 x-django-superuser:
   &django-superuser

@@ -3,6 +3,7 @@ version: '2.4'
 x-debug:
   &debug
   DEBUG: "True"
+  EMAIL_TEST_BACKEND: "True"
 
 x-alerts-code:
   &alerts-code
