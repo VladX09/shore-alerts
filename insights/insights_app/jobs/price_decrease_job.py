@@ -21,9 +21,9 @@ DJANGO_DT_FORMAT = "YYYY-MM-DDTHH:mm:ss"
 
 
 def select_price_minmax(from_dt: arrow.Arrow, alerts_client: AlertsClient):
+    """Select the earliest and the latest occurency of each item for each alert."""
     # Get lists of records for each combination of email, item_id and currency
     # Sorted by updated_date (ascended)
-
     results = alerts_client.get_alert_items(
         updated_at__gte=from_dt.format(DJANGO_DT_FORMAT),
         ordering="alert__email,item_id,currency,updated_at",
@@ -43,6 +43,7 @@ def select_price_minmax(from_dt: arrow.Arrow, alerts_client: AlertsClient):
 
 
 def prepare_email_data(groups, decrease_percent: float) -> t.Dict[str, t.List[t.Dict]]:
+    """Analyse items to find price decrease."""
     if decrease_percent < 0 or decrease_percent > 1:
         raise ValueError("Decrease percent should be in [0;1] range")
 

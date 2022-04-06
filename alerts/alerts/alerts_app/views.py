@@ -41,6 +41,7 @@ class AlertViewSet(viewsets.ModelViewSet):
     ordering_fields = ["email"]
 
     def perform_create(self, serializer):
+        """Couple Alert and PeriodicTask models."""
         with transaction.atomic():
             data = serializer.validated_data
 
@@ -66,6 +67,7 @@ class AlertViewSet(viewsets.ModelViewSet):
             serializer.save(task=task)
 
     def perform_update(self, serializer):
+        """Couple Alert and PeriodicTask models."""
         with transaction.atomic():
             instance = serializer.save()
 
@@ -80,9 +82,12 @@ class AlertViewSet(viewsets.ModelViewSet):
             instance.task.save()
 
     def perform_destroy(self, instance):
+        """Couple Alert and PeriodicTask models."""
         task = instance.task
-        instance.delete()
 
-        logger.debug("Removing task %s", instance.task)
-        if task:
-            task.delete()
+        with transaction.atomic():
+            instance.delete()
+
+            logger.debug("Removing task %s", instance.task)
+            if task:
+                task.delete()
