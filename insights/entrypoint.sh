@@ -3,7 +3,7 @@ set -e
 
 case "$1" in
     test)
-        pytest --log-level=DEBUG
+        pytest --log-level=DEBUG 
         ;;
     start)
         PARAMS=${2:}
