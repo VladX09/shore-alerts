@@ -3,7 +3,6 @@ import typing as t
 
 import requests
 
-
 from . import settings
 
 
