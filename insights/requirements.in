@@ -4,3 +4,4 @@ crontab
 requests
 pydantic
 jinja2
+pytest
