@@ -4,23 +4,14 @@ x-network:
   networks:
     - shore
 
+x-secret-env:
+  &secret-env
+  env_file:
+    - secrets.env
+
 x-debug:
   &debug
-  DEBUG: "${DEBUG:-True}"
-
-x-ebay:
-  &ebay
-  EBAY_APP_ID: "${EBAY_APP_ID:?}"
-  EBAY_CERT_ID: "${EBAY_CERT_ID:?}"
-  EBAY_API_URL: "${EBAY_API_URL:?}"
-
-x-email:
-  &email
-  EMAIL_HOST: "${EMAIL_HOST:?}"
-  EMAIL_PORT: "${EMAIL_PORT:?}"
-  EMAIL_HOST_USER: "${EMAIL_HOST_USER:?}"
-  EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD:?}"
-  SENDER_EMAIL: "${SENDER_EMAIL:?}"
+  DEBUG: "True"
 
 x-django-superuser:
   &django-superuser
@@ -36,6 +27,7 @@ x-alerts-db:
 
 x-alerts-image:
   &alerts-image
+  <<: *secret-env
   build:
     context: .
     dockerfile: ./alerts/Dockerfile
@@ -44,6 +36,7 @@ x-alerts-image:
 
 x-insights-image:
   &insights-image
+  <<: *secret-env
   build:
     context: .
     dockerfile: ./insights/Dockerfile
@@ -101,9 +94,7 @@ services:
       - alerts-beat
     environment:
       <<: *alerts-db
-      <<: *email
       <<: *debug
-      <<: *ebay
 
   alerts-beat:
     <<: *network
@@ -115,6 +106,7 @@ services:
     environment:
       <<: *alerts-db
       <<: *debug
+
   price-decrease-insight:
     <<: *network
     <<: *insights-image
@@ -122,9 +114,6 @@ services:
     depends_on:
       alerts:
         condition: service_healthy
-    environment:
-      <<: *email
-      <<: *debug
 
 networks:
   shore:
