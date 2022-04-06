@@ -6,6 +6,8 @@
 #
 amqp==5.1.0
     # via kombu
+arrow==1.2.2
+    # via -r requirements.in
 asgiref==3.5.0
     # via django
 async-timeout==4.0.2
@@ -76,7 +78,9 @@ pyparsing==3.0.7
 python-crontab==2.6.0
     # via django-celery-beat
 python-dateutil==2.8.2
-    # via python-crontab
+    # via
+    #   arrow
+    #   python-crontab
 pytz==2022.1
     # via
     #   celery

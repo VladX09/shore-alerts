@@ -13,7 +13,7 @@ from . import models, serializers
 logger = get_task_logger(__name__)
 
 
-def get_previous_prices(alert_id: int, item_ids: t.Set[str]):
+def get_previous_prices(alert_id: int, item_ids: t.Set[str]) -> t.Dict[str, int]:
     """Get last item price for each item in given alert."""
     query = (
         models.AlertItem.objects.filter(
