@@ -6,7 +6,7 @@ x-network:
 
 x-debug:
   &debug
-  DEBUG: "True"
+  DEBUG: "${DEBUG:-True}"
 
 x-ebay:
   &ebay
