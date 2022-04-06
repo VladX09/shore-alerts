@@ -138,3 +138,7 @@ def cli(
                 sender_email,
                 decrease_percent,
             )
+
+
+if __name__ == "__main__":
+    cli()

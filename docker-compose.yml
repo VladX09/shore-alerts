@@ -42,6 +42,14 @@ x-alerts-image:
   volumes:
     - ./alerts:/code
 
+x-insights-image:
+  &insights-image
+  build:
+    context: .
+    dockerfile: ./insights/Dockerfile
+  volumes:
+    - ./insights:/code
+
 services:
   alerts:
     <<: *network
@@ -106,6 +114,16 @@ services:
         condition: service_healthy
     environment:
       <<: *alerts-db
+      <<: *debug
+  price-decrease-insight:
+    <<: *network
+    <<: *insights-image
+    command: "start --schedule * * 2 * *"
+    depends_on:
+      alerts:
+        condition: service_healthy
+    environment:
+      <<: *email
       <<: *debug
 
 networks:
