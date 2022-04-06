@@ -111,6 +111,8 @@ services:
     depends_on:
       alerts:
         condition: service_healthy
+    environment:
+      - ALERTS_SVC_URL=http://alerts:8080
 
 networks:
   shore:
