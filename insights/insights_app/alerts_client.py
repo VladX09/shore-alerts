@@ -27,7 +27,7 @@ class AlertsClient:
 
     @property
     def alert_items_url(self) -> str:
-        return f"{self.url}/api/v1/items"
+        return f"{self.url}/api/v1/items/"
 
     def get_alert_items(self, **params) -> t.List[AlertItem]:
         response = requests.get(url=self.alert_items_url, params=params)
