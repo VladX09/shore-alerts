@@ -42,7 +42,7 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 ### Alert scheduling
 I chose Celery for asynchronous tasks.
 `django-celery-beat` plugin allows to schedule tasks via DjangoORM and DB.
-I connected `Alert` model to `PeriodicTask` model one-to-one relationship and a couple of ViewSet customizations. 
+I connected `Alert` model to `PeriodicTask` model with one-to-one relationship and a couple of ViewSet customizations. 
 It allows to perform all operations (create; update/reschedule; delete/cancel) on both models in one transaction.
 
 > Since user authorization is not required and we don't know about requirements regarding user-email-alerts relationship
