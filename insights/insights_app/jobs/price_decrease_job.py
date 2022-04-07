@@ -81,7 +81,7 @@ def send_emails(
         loader=jinja2.PackageLoader("insights_app"),
         autoescape=jinja2.select_autoescape(),
     )
-    template = env.get_template("price_decrease_email.html")
+    template = env.get_template("price_decrease_email.html.j2")
 
     for receiver_email, items in email_data.items():
         content = template.render(items=items)
@@ -128,6 +128,7 @@ def cli(
 
     while True:
         time.sleep(scheduler.next(default_utc=True))
+        click.echo("Start task")
         with smtp_client(
             email_host,
             email_port,
